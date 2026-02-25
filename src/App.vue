@@ -1,30 +1,57 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <div class="app-container">
+    <h1>Канбан-доска</h1>
+    <div>
+      <form
+        @submit.prevent
+      >
+        <button
+            @click="showInput = true"
+            v-if="!showInput"
+        >
+          Создать карточку задачи (в первом столбце)
+        </button>
+        <div>
+          <input
+              v-if="showInput"
+              type="text"
+              placeholder="Заголовок карточки-задачи"
+          >
+          <input
+              v-if="showInput"
+              type="text"
+              placeholder="Описание задачи"
+          >
+          <button
+              v-if="showInput"
+              @click="showInput = false"
+          >
+            Создать</button>
+          <button
+              v-if="showInput"
+              @click="showInput = false"
+          >
+            Отмена создания</button>
+
+        </div>
+      </form>
+    </div>
+
+
+  </div>
 </template>
 
+<script>
+export default {
+  data() {
+    return {
+      showInput: false,
+    }
+  }
+
+}
+</script>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
 
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>
