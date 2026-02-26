@@ -58,6 +58,7 @@
         @deleteCardEvent="deleteCard"
         @editCardEvent="editCard"
         @editColumnEvent="editCardColumn"
+        @saveToLocalStorageEvent="saveToLocalStorage"
     />
 
   </div>
@@ -68,6 +69,9 @@
 import Board from "@/components/Board.vue";
 
 export default {
+  created() {
+    this.loadFromLocalStorage()
+  },
   components: {Board},
 
   data() {
@@ -176,6 +180,18 @@ export default {
     }
   },
   methods: {
+    loadFromLocalStorage() {
+      const savedCards = localStorage.getItem('cards')
+
+      if (savedCards) {
+        this.cards = JSON.parse(savedCards)
+      }
+
+    },
+    saveToLocalStorage() {
+      localStorage.setItem('cards', JSON.stringify(this.cards))
+    },
+
     formatDate() {
       const d = new Date();
       const day = d.getDate().toString().padStart(2, '0');
@@ -199,6 +215,7 @@ export default {
           updatedAt: ''
         }
         this.cards.push(card);
+        this.saveToLocalStorage()
 
       } else {
         alert("Заполните заголовок, описание и крайний срок выполнения карточки")
@@ -206,12 +223,14 @@ export default {
     },
     deleteCard(data) {
        this.cards = this.cards.filter(c => c.id !== data.card.id)
+      this.saveToLocalStorage()
     },
     editCard(data) {
       this.cards[data.card.id-1].title = data.cardEdit.title
       this.cards[data.card.id-1].textTask = data.cardEdit.textTask
       this.cards[data.card.id-1].deadlineDate = data.cardEdit.deadlineDate
       this.cards[data.card.id-1].updatedAt = this.formatDate()
+      this.saveToLocalStorage()
       data.cardEdit.title = ''
       data.cardEdit.taskText = ''
       data.cardEdit.deadlineDate = ''
@@ -221,6 +240,7 @@ export default {
       if ((data.editNumColumn === 2 && data.cardEdit.reasonForReturn) || data.editNumColumn === 4) {
         this.cards[data.card.id-1].column = data.editNumColumn
         this.cards[data.card.id-1].reasonForReturn = data.cardEdit.reasonForReturn
+        this.saveToLocalStorage()
       } else {
         alert("Заполните причину возврата карточки в работу")
       }
@@ -230,6 +250,7 @@ export default {
 
         this.cards[data.card.id-1].column = data.editNumColumn
         this.cards[data.card.id-1].deadlineExpired = deadline < today;
+        this.saveToLocalStorage()
 
       }
     }

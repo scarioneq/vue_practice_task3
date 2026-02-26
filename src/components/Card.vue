@@ -71,12 +71,12 @@
         Удалить</button>
       <button
           v-if="card.column === 1 && showInputEdit === false"
-          @click="card.column=2"
+          @click="[card.column=2, saveToLocalStorage()]"
       >
         Взять в работу</button>
       <button
           v-if="card.column === 2 && showInputEdit === false"
-          @click="card.column=3; card.reasonForReturn = ''"
+          @click="[card.column=3, card.reasonForReturn = '', saveToLocalStorage()]"
       >
         Отдать на тестирование
       </button>
@@ -161,6 +161,9 @@ export default {
         editNumColumn: editNumColumn,
 
       })
+    },
+    saveToLocalStorage() {
+      this.$emit('saveToLocalStorageEvent')
     }
   }
 

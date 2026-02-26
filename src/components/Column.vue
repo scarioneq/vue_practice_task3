@@ -13,6 +13,7 @@
         @deleteCardEvent="$emit('deleteCardEvent', $event)"
         @editCardEvent="$emit('editCardEvent', $event)"
         @editColumnEvent="$emit('editColumnEvent', $event)"
+        @saveToLocalStorageEvent="$emit('saveToLocalStorageEvent', $event)"
     />
 
 

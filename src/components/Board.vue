@@ -5,11 +5,13 @@
         :cards="cards.filter(card => card.column === 1)"
         @deleteCardEvent="$emit('deleteCardEvent', $event)"
         @editCardEvent="$emit('editCardEvent', $event)"
+        @saveToLocalStorageEvent="$emit('saveToLocalStorageEvent', $event)"
     />
     <Column
         title="Задачи в работе"
         :cards="cards.filter(card => card.column === 2)"
         @editCardEvent="$emit('editCardEvent', $event)"
+        @saveToLocalStorageEvent="$emit('saveToLocalStorageEvent', $event)"
     />
     <Column
         title="Тестирование"
