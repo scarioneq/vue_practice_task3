@@ -15,6 +15,7 @@
         title="Тестирование"
         :cards="cards.filter(card => card.column === 3)"
         @editCardEvent="$emit('editCardEvent', $event)"
+        @editColumnEvent="$emit('editColumnEvent', $event)"
 
     />
     <Column

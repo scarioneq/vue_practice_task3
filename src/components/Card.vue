@@ -23,7 +23,7 @@
       <div class="form-inline-card btn-card">
         <button
             @click="showInputEdit = true"
-            v-if="(card.column === 1 || card.column === 2 || card.column === 3) && showInputEdit === false"
+            v-if="(card.column === 1 || card.column === 2 || card.column === 3) && showInputEdit === false && showInputReasonForReturn === false"
         >
           Редактировать</button>
         <input
@@ -76,22 +76,37 @@
         Взять в работу</button>
       <button
           v-if="card.column === 2 && showInputEdit === false"
-          @click="card.column=3"
+          @click="card.column=3; card.reasonForReturn = ''"
       >
         Отдать на тестирование
       </button>
       <button
-          v-if="card.column === 3 && showInputEdit === false"
-          @click="card.column=4"
+          v-if="card.column === 3 && showInputEdit === false && showInputReasonForReturn === false"
+          @click="editColumn(4)"
       >
         Завершить задачу
       </button>
-      <button
-          v-if="card.column === 3 && showInputEdit === false"
-          @click="card.column=2"
-      >
-        Вернуть в работу
-      </button>
+      <div>
+        <button
+            v-if="card.column === 3 && showInputEdit === false && showInputReasonForReturn === false"
+            @click="[showInputReasonForReturn = true]"
+
+        >
+          Вернуть в работу
+        </button>
+        <button
+            v-if="showInputReasonForReturn === true"
+            @click="[editColumn(2), showInputReasonForReturn = false]"
+        >Вернуть в работу</button>
+        <br>
+        <input
+            v-if="showInputReasonForReturn === true"
+            type="text"
+            placeholder="Причина возврата в работу"
+            v-model="cardEdit.reasonForReturn"
+        >
+      </div>
+
     </div>
 
   </div>
@@ -108,10 +123,13 @@ export default {
   data() {
     return {
       showInputEdit: false,
+      showInputReasonForReturn: false,
       cardEdit : {
         title: '',
         textTask: '',
         deadlineDate: '',
+        column: '',
+        reasonForReturn: ''
       },
     }
   },
@@ -134,6 +152,14 @@ export default {
       this.$emit('editCardEvent', {
         card: this.card,
         cardEdit: this.cardEdit
+      })
+    },
+    editColumn(editNumColumn) {
+      this.$emit('editColumnEvent', {
+        card: this.card,
+        cardEdit: this.cardEdit,
+        editNumColumn: editNumColumn,
+
       })
     }
   }

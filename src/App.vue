@@ -57,6 +57,7 @@
         :cards="cards"
         @deleteCardEvent="deleteCard"
         @editCardEvent="editCard"
+        @editColumnEvent="editCardColumn"
     />
 
   </div>
@@ -89,8 +90,8 @@ export default {
           //boolean
           deadlineExpired: '',
           //date
-          deadlineDate: '02.03.2026',
-          createdAt: '25.02.2026',
+          deadlineDate: '2026-03-02',
+          createdAt: '2026-02-25',
           updatedAt: '',
         },
         {
@@ -100,8 +101,8 @@ export default {
           textTask: 'Чтобы без багов',
           reasonForReturn: '',
           deadlineExpired: '',
-          deadlineDate: '02.03.2026',
-          createdAt: '24.02.2026',
+          deadlineDate: '2026-03-02',
+          createdAt: '2026-02-24',
           updatedAt: '',
         },
         {
@@ -111,9 +112,9 @@ export default {
           textTask: 'Чтобы без багов',
           reasonForReturn: '',
           deadlineExpired: '',
-          deadlineDate: '02.03.2026',
-          createdAt: '24.02.2026',
-          updatedAt: '18.02.2026',
+          deadlineDate: '2026-03-02',
+          createdAt: '2026-02-24',
+          updatedAt: '2026-02-18',
         },
         {
           id: 4,
@@ -123,8 +124,8 @@ export default {
           reasonForReturn: '',
           deadlineExpired: false,
           deadlineDate: 'Poka tak2',
-          createdAt: '22.02.2026',
-          updatedAt: '18.02.2026',
+          createdAt: '2026-02-22',
+          updatedAt: '2026-02-18',
         },
         {
           id: 5,
@@ -133,9 +134,9 @@ export default {
           textTask: 'Чтобы без багов',
           reasonForReturn: '',
           deadlineExpired: true,
-          deadlineDate: '23.02.2026',
-          createdAt: '18.02.2026',
-          updatedAt: '18.02.2026',
+          deadlineDate: '2026-02-23',
+          createdAt: '2026-02-18',
+          updatedAt: '2026-02-18',
         },
         {
           id: 6,
@@ -144,9 +145,31 @@ export default {
           textTask: 'Чтобы без багов',
           reasonForReturn: 'Много багов!!!',
           deadlineExpired: '',
-          deadlineDate: '29.02.2026',
-          createdAt: '18.02.2026',
-          updatedAt: '19.02.2026',
+          deadlineDate: '2026-02-29',
+          createdAt: '2026-02-18',
+          updatedAt: '2026-02-19',
+        },
+        {
+          id: 7,
+          title: 'Написать сервис выдачи ролей',
+          column: 3,
+          textTask: 'Чтобы без багов',
+          reasonForReturn: '',
+          deadlineExpired: '',
+          deadlineDate: '2026-02-02',
+          createdAt: '2026-02-24',
+          updatedAt: '2026-02-18',
+        },
+        {
+          id: 8,
+          title: 'Написать сервис выдачи ролей',
+          column: 3,
+          textTask: 'Чтобы без багов',
+          reasonForReturn: '',
+          deadlineExpired: '',
+          deadlineDate: '2026-02-26',
+          createdAt: '2026-02-24',
+          updatedAt: '2026-02-18',
         },
 
       ]
@@ -159,7 +182,7 @@ export default {
       const month = (d.getMonth() + 1).toString().padStart(2, '0');
       const year = d.getFullYear();
 
-      return `${day}.${month}.${year}`;
+      return `${year}-${month}-${day}`;
     },
 
     createCard() {
@@ -192,6 +215,23 @@ export default {
       data.cardEdit.title = ''
       data.cardEdit.taskText = ''
       data.cardEdit.deadlineDate = ''
+    },
+    editCardColumn(data) {
+
+      if ((data.editNumColumn === 2 && data.cardEdit.reasonForReturn) || data.editNumColumn === 4) {
+        this.cards[data.card.id-1].column = data.editNumColumn
+        this.cards[data.card.id-1].reasonForReturn = data.cardEdit.reasonForReturn
+      } else {
+        alert("Заполните причину возврата карточки в работу")
+      }
+      if (data.editNumColumn === 4) {
+        const deadline = new Date(data.card.deadlineDate);
+        const today = new Date(this.formatDate());
+
+        this.cards[data.card.id-1].column = data.editNumColumn
+        this.cards[data.card.id-1].deadlineExpired = deadline < today;
+
+      }
     }
   },
 }
