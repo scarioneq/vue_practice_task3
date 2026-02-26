@@ -11,6 +11,7 @@
         :key="card.id"
         :card="card"
         @deleteCardEvent="$emit('deleteCardEvent', $event)"
+        @editCardEvent="$emit('editCardEvent', $event)"
     />
 
 

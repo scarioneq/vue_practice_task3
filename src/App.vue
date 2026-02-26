@@ -56,6 +56,7 @@
     <Board
         :cards="cards"
         @deleteCardEvent="deleteCard"
+        @editCardEvent="editCard"
     />
 
   </div>
@@ -182,6 +183,15 @@ export default {
     },
     deleteCard(data) {
        this.cards = this.cards.filter(c => c.id !== data.card.id)
+    },
+    editCard(data) {
+      this.cards[data.card.id-1].title = data.cardEdit.title
+      this.cards[data.card.id-1].textTask = data.cardEdit.textTask
+      this.cards[data.card.id-1].deadlineDate = data.cardEdit.deadlineDate
+      this.cards[data.card.id-1].updatedAt = this.formatDate()
+      data.cardEdit.title = ''
+      data.cardEdit.taskText = ''
+      data.cardEdit.deadlineDate = ''
     }
   },
 }

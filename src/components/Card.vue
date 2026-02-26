@@ -30,11 +30,13 @@
             v-if="showInputEdit"
             type="text"
             placeholder="Заголовок карточки-задачи"
+            v-model="cardEdit.title"
         >
         <input
             v-if="showInputEdit"
             type="text"
             placeholder="Описание задачи"
+            v-model="cardEdit.textTask"
         >
         <label
             for="dateDeadline"
@@ -46,10 +48,11 @@
             id="dateDeadline"
             v-if="showInputEdit"
             type="date"
+            v-model="cardEdit.deadlineDate"
         >
         <button
             v-if="showInputEdit"
-            @click="showInputEdit = false"
+            @click="[showInputEdit = false, editCard()]"
         >
           Редактировать
         </button>
@@ -104,7 +107,12 @@ export default {
   },
   data() {
     return {
-      showInputEdit: false
+      showInputEdit: false,
+      cardEdit : {
+        title: '',
+        textTask: '',
+        deadlineDate: '',
+      },
     }
   },
   methods: {
@@ -112,8 +120,21 @@ export default {
       this.$emit('deleteCardEvent', {
         card: this.card,
       })
-
-
+    },
+    editCard() {
+      if (!this.cardEdit.title) {
+        this.cardEdit.title = this.card.title
+      }
+      if (!this.cardEdit.textTask) {
+        this.cardEdit.textTask = this.card.textTask
+      }
+      if (!this.cardEdit.deadlineDate) {
+        this.cardEdit.deadlineDate = this.card.deadlineDate
+      }
+      this.$emit('editCardEvent', {
+        card: this.card,
+        cardEdit: this.cardEdit
+      })
     }
   }
 
