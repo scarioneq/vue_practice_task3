@@ -63,6 +63,7 @@
 
       <button
           v-if="card.column === 1 && showInputEdit === false"
+          @click="deleteCard"
       >
         Удалить</button>
       <button
@@ -104,6 +105,15 @@ export default {
   data() {
     return {
       showInputEdit: false
+    }
+  },
+  methods: {
+    deleteCard() {
+      this.$emit('deleteCardEvent', {
+        card: this.card,
+      })
+
+
     }
   }
 

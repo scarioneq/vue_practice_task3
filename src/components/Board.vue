@@ -3,6 +3,7 @@
     <Column
         title="Запланированные задачи"
         :cards="cards.filter(card => card.column === 1)"
+        @deleteCardEvent="$emit('deleteCardEvent', $event)"
     />
     <Column
         title="Задачи в работе"
@@ -11,6 +12,7 @@
     <Column
         title="Тестирование"
         :cards="cards.filter(card => card.column === 3)"
+
     />
     <Column
         title="Выполненные задачи"

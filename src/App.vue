@@ -55,6 +55,7 @@
     </div>
     <Board
         :cards="cards"
+        @deleteCardEvent="deleteCard"
     />
 
   </div>
@@ -161,7 +162,6 @@ export default {
     },
 
     createCard() {
-
       if (this.card.title && this.card.textTask && this.card.deadlineDate) {
         const card = {
           id: this.cards.length + 1,
@@ -179,6 +179,9 @@ export default {
       } else {
         alert("Заполните заголовок, описание и крайний срок выполнения карточки")
       }
+    },
+    deleteCard(data) {
+       this.cards = this.cards.filter(c => c.id !== data.card.id)
     }
   },
 }
