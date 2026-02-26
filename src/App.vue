@@ -2,7 +2,7 @@
   <div class="app-container">
     <h1>Канбан-доска</h1>
     <div>
-      <form
+      <form class="form-inline"
         @submit.prevent
       >
         <button
@@ -12,15 +12,17 @@
           Создать карточку задачи (в первом столбце)
         </button>
         <div
-            class="form-inline"
+
         >
           <input
               v-if="showInput"
+              v-model="card.title"
               type="text"
               placeholder="Заголовок карточки-задачи"
           >
           <input
               v-if="showInput"
+              v-model="card.textTask"
               type="text"
               placeholder="Описание задачи"
           >
@@ -33,11 +35,12 @@
           <input
               id="dateDeadline"
               v-if="showInput"
+              v-model="card.deadlineDate"
               type="date"
           >
           <button
               v-if="showInput"
-              @click="showInput = false"
+              @click="[showInput = false, createCard()]"
           >
             Создать
           </button>
@@ -63,8 +66,15 @@ import Board from "@/components/Board.vue";
 
 export default {
   components: {Board},
+
   data() {
     return {
+      card : {
+        title: '',
+        textTask: '',
+        deadlineDate: '',
+      },
+
       showInput: false,
       cards: [
         {
@@ -139,6 +149,29 @@ export default {
 
       ]
     }
+  },
+  methods: {
+    createCard() {
+
+      if (this.card.title && this.card.textTask && this.card.deadlineDate) {
+        const card = {
+          id: this.cards.length + 1,
+          title: this.card.title,
+          column: 1,
+          textTask: this.card.textTask,
+          reasonForReturn: '',
+          deadlineExpired: '',
+          deadlineDate: this.card.deadlineDate,
+          createdAt: '18.02.2026',
+          updatedAt: ''
+        }
+          console.log(card.id)
+
+      } else {
+        alert("Заполните заголовок, описание и крайний срок выполнения карточки")
+      }
+    }
+
   }
 
 }
@@ -160,9 +193,45 @@ h1 {
   color: #252525;
 }
 
-.form-inline {
-  display: flex;
+.form-inline div {
+  display: inline-flex;
   flex-direction: column;
+}
+
+.form-inline button {
+  background: none;
+  border-radius: 2px;
+  border: 1px solid teal;
+  padding: 3px;
+  transition: background-color 0.3s ease;
+  margin-bottom: 5px;
+}
+
+.form-inline button:hover {
+  box-shadow: 2px 4px 10px;
+  padding: 10px 10px;
+  border: none;
+  cursor: pointer;
+  background: teal;
+  border-radius: 2px;
+  margin-top: 5px;
+}
+
+.form-inline input {
+  background: none;
+  border-radius: 2px;
+  border: 1px solid teal;
+  padding: 3px;
+  transition: background-color 0.3s ease;
+  margin-bottom: 5px;
+}
+
+.form-inline input:focus {
+  background: none;
+  box-shadow: 2px 4px 10px;
+  border: 1px solid teal;
+  border-radius: 2px;
+  margin-top: 5px;
 }
 
 </style>

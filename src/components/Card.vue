@@ -20,33 +20,70 @@
     </div>
     <p v-if="card.updatedAt">Редактировано: {{ card.updatedAt }}</p>
     <div class="btn-card">
+      <div class="form-inline-card btn-card">
+        <button
+            @click="showInputEdit = true"
+            v-if="(card.column === 1 || card.column === 2 || card.column === 3) && showInputEdit === false"
+        >
+          Редактировать</button>
+        <input
+            v-if="showInputEdit"
+            type="text"
+            placeholder="Заголовок карточки-задачи"
+        >
+        <input
+            v-if="showInputEdit"
+            type="text"
+            placeholder="Описание задачи"
+        >
+        <label
+            for="dateDeadline"
+            v-if="showInputEdit"
+        >
+          Крайний срок выполнения:
+        </label>
+        <input
+            id="dateDeadline"
+            v-if="showInputEdit"
+            type="date"
+        >
+        <button
+            v-if="showInputEdit"
+            @click="showInputEdit = false"
+        >
+          Редактировать
+        </button>
+        <button
+            v-if="showInputEdit"
+            @click="showInputEdit = false"
+        >
+          Отмена редактирования
+        </button>
+      </div>
+
       <button
-          v-if="card.column === 1 || card.column === 2 || card.column === 3"
-      >
-        Редактировать</button>
-      <button
-          v-if="card.column === 1"
+          v-if="card.column === 1 && showInputEdit === false"
       >
         Удалить</button>
       <button
-          v-if="card.column === 1"
+          v-if="card.column === 1 && showInputEdit === false"
           @click="card.column=2"
       >
         Взять в работу</button>
       <button
-          v-if="card.column === 2"
+          v-if="card.column === 2 && showInputEdit === false"
           @click="card.column=3"
       >
         Отдать на тестирование
       </button>
       <button
-          v-if="card.column === 3"
+          v-if="card.column === 3 && showInputEdit === false"
           @click="card.column=4"
       >
         Завершить задачу
       </button>
       <button
-          v-if="card.column === 3"
+          v-if="card.column === 3 && showInputEdit === false"
           @click="card.column=2"
       >
         Вернуть в работу
@@ -64,6 +101,11 @@ export default {
       required: true
     }
   },
+  data() {
+    return {
+      showInputEdit: false
+    }
+  }
 
 }
 </script>
@@ -118,5 +160,31 @@ p {
   border-radius: 2px;
   margin-top: 5px;
 }
+
+.form-inline-card{
+  display: flex;
+  flex-direction: column;
+}
+
+.btn-card input {
+  background: none;
+  border-radius: 2px;
+  border: 1px solid teal;
+  padding: 3px;
+  transition: background-color 0.3s ease;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+.btn-card input:focus {
+  background: none;
+  box-shadow: 2px 4px 10px;
+  border: 1px solid teal;
+  border-radius: 2px;
+  margin-top: 5px;
+}
+
+
+
 
 </style>
